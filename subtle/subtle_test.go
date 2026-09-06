@@ -3,7 +3,7 @@ package subtle_test
 import (
 	"testing"
 
-	"github.com/tinywasm/crypto/subtle"
+	"webtyp.com/crypto/subtle"
 )
 
 func TestConstantTimeCompare(t *testing.T) {

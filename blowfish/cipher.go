@@ -1,7 +1,7 @@
 package blowfish
 
 import (
-	. "github.com/tinywasm/fmt"
+	. "webtyp.com/fmt"
 )
 
 // BlockSize is the Blowfish block size in bytes (8 bytes).

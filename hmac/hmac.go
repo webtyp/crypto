@@ -4,11 +4,11 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 
-	"github.com/tinywasm/crypto/subtle"
+	"webtyp.com/crypto/subtle"
 )
 
 // HMACSHA256 returns the HMAC-SHA256 of message under key.
-// Used by tinywasm/jwt to sign JWT session tokens.
+// Used by webtyp/jwt to sign JWT session tokens.
 func HMACSHA256(key, message []byte) []byte {
 	mac := hmac.New(sha256.New, key)
 	mac.Write(message)

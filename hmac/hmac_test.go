@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/tinywasm/crypto/hmac"
+	"webtyp.com/crypto/hmac"
 )
 
 func TestHMACSHA256(t *testing.T) {

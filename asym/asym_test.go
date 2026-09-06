@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/tinywasm/crypto/asym"
+	"webtyp.com/crypto/asym"
 )
 
 func TestKeyParsingErrors(t *testing.T) {

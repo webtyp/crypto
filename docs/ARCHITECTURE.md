@@ -1,4 +1,4 @@
-# Architecture: TinyWASM Crypto Layer
+# Architecture: WebTyp Crypto Layer
 
 The `crypto` module is an isomorphic library designed to provide cryptographic capabilities directly to both the backend (Standard Go) and the frontend (WebAssembly via TinyGo).
 
@@ -18,7 +18,7 @@ instance) is necessary to execute these operations.
 ### 1.2 Isomorphism and Standards
 Both the native backend runtime and the TinyGo WebAssembly runtime implement identical cryptographic algorithms over standard signatures. There is 100% behavioral equivalence.
 - The standard library's `crypto` subpackages are used internally, except tailored implementations for entropy collection depending on the environment (e.g., `crypto/rand`'s `Read` mapping to the stdlib `crypto/rand` natively, and to `crypto.getRandomValues()` internally on the WebAssembly browser side).
-- **Encodings are not included:** To keep the binary size minimal, encodings like Base64 or Hex are not part of this package. They are provided as zero-dependency packages in the ecosystem (e.g., `github.com/tinywasm/base64`).
+- **Encodings are not included:** To keep the binary size minimal, encodings like Base64 or Hex are not part of this package. They are provided as zero-dependency packages in the ecosystem (e.g., `webtyp.com/base64`).
 
 ### 1.3 Leaf Subpackages — the only import path
 The previous root package (`tinycrypto.go` + `hmac.go`) was deliberately heavy:

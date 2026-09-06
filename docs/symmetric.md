@@ -17,7 +17,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/tinywasm/crypto/aesgcm"
+	"webtyp.com/crypto/aesgcm"
 )
 
 func main() {
@@ -48,7 +48,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/tinywasm/crypto/aesgcm"
+	"webtyp.com/crypto/aesgcm"
 )
 
 func main() {

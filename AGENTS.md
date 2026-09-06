@@ -1,4 +1,4 @@
-# Agent Guide — `tinywasm/crypto`
+# Agent Guide — `webtyp/crypto`
 
 Constraints for agents working on this library. Read this before any change.
 
@@ -9,7 +9,7 @@ Constraints for agents working on this library. Read this before any change.
 An **isomorphic** cryptographic layer: the same API compiles and behaves
 identically on the native backend (standard Go) and on the frontend/edge
 (WebAssembly via TinyGo — browsers, Cloudflare Workers, `goflare`). Consumers
-such as `tinywasm/user` sign and verify tokens with it inside a WASM binary,
+such as `webtyp/user` sign and verify tokens with it inside a WASM binary,
 so **binary size is a design constraint, not a detail**.
 
 ## Public API shape — direct package functions
@@ -20,16 +20,16 @@ struct, **no** receiver: this library does entropy generation and pure math, so
 it holds no state.
 
 - **Typed over `any`** — zero generics, zero `any`, zero `map` in the public
-  API (the `tinywasm/fmt` codec rule: *"cero any, cero map"*).
+  API (the `webtyp/fmt` codec rule: *"cero any, cero map"*).
 - **Minimal public surface** — export only what consumers call. Helpers stay
   unexported.
 - Inputs and outputs are `[]byte` / `string`; errors propagate as values.
 
 ## The stdlib rule — and its one carve-out
 
-The ecosystem rule is *no Go stdlib* (use `github.com/tinywasm/fmt` for
+The ecosystem rule is *no Go stdlib* (use `webtyp.com/fmt` for
 strings, numbers and errors; it is dot-imported here:
-`. "github.com/tinywasm/fmt"`).
+`. "webtyp.com/fmt"`).
 
 **Carve-out:** the `crypto/*` standard packages (`crypto/aes`, `crypto/cipher`,
 `crypto/ecdh`, `crypto/ecdsa`, `crypto/sha256`, `crypto/hmac`, `crypto/rand`,
@@ -122,7 +122,7 @@ build tag inside `crypto/rand`:
   `syscall/js`.
 
 The root package's `random.go` (no build tag) re-exports
-`github.com/tinywasm/crypto/rand.Read` as `Random(b []byte) error` for
+`webtyp.com/crypto/rand.Read` as `Random(b []byte) error` for
 backward compatibility with existing callers.
 
 Everything else is tag-free and must compile for **both** targets. `syscall/js`
@@ -138,7 +138,7 @@ a **timing oracle** and will be rejected in review.
 ## Testing — dual WASM/stdlib pattern
 
 ```bash
-go install github.com/tinywasm/devflow/cmd/gotest@latest
+go install webtyp.com/devflow/cmd/gotest@latest
 gotest          # runs BOTH suites: native + wasm (Go toolchain)
 gotest -tinygo  # compiles the WASM suite with TinyGo (slow: ~2 min, goes through LLVM)
 ```
@@ -182,7 +182,7 @@ re-index `README.md` so every file under `docs/` is linked. Diagrams are
 
 - Never call `gopush` or `codejob` — local developer tooling, outside the agent.
 - Never change an existing function's signature or algorithm without it being
-  ordered by `docs/PLAN.md`: consumers (`tinywasm/user`) sign persisted data
+  ordered by `docs/PLAN.md`: consumers (`webtyp/user`) sign persisted data
   with them, and a silent format change invalidates stored credentials/tokens.
 - Never write Spanish in code comments or error strings, even if a
   `docs/PLAN.md` instructs otherwise — a plan's own language is not a source

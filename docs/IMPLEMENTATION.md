@@ -1,17 +1,17 @@
-# Implementation: TinyWASM Crypto Layer
+# Implementation: WebTyp Crypto Layer
 
 ## 1. Development Rules
 
 > **Note on Standard Rules**: The following rules must be strictly adhered to while modifying the code base.
 
 - **Single Responsibility Principle (SRP):** Every file must have a single, well-defined purpose.
-- **Frontend Go Compatibility:** Maximum compatibility with TinyGo is required. The standard library should not be used when it conflicts with tinywasm implementations; for example, use `tinywasm/fmt` instead of `fmt`, `strings`, `strconv`, `errors`; also use `tinywasm/time` and `tinywasm/json`.
+- **Frontend Go Compatibility:** Maximum compatibility with TinyGo is required. The standard library should not be used when it conflicts with webtyp implementations; for example, use `webtyp/fmt` instead of `fmt`, `strings`, `strconv`, `errors`; also use `webtyp/time` and `webtyp/json`.
 - **WASM/Stlib Dual Testing Pattern (Backend vs Frontend):**
     - **Separate Implementation:** Use build tags to separate logic.
         - `frontWasm_test.go` -> `//go:build wasm`
         - `backStlib_test.go` -> `//go:build !wasm`
     - **Shared Runner:** Both files MUST call a shared test runner (e.g., `RunCryptoTests(t)`) to avoid code duplication.
-- **Testing:** For Go tests, always use `gotest` (`github.com/tinywasm/devflow/cmd/gotest`). It evaluates standard tests and detects/runs WASM tests simultaneously.
+- **Testing:** For Go tests, always use `gotest` (`webtyp.com/devflow/cmd/gotest`). It evaluates standard tests and detects/runs WASM tests simultaneously.
 - **Documentation First:** Document architectural changes and implementations thoroughly in `docs/` and link them in the index `README.md`.
 
 ## 2. API Contract Shift
@@ -28,7 +28,7 @@ ciphertext, err := crypto.Encrypt(plaintext, key)
 ```
 Struct `TinyCrypto` and its constructor `New()` are to be completely removed. All previously attached methods become package-global functions. Internal state is zero, ensuring functions are pure and thread-safe.
 
-## 3. Aleatoriedad / Randomness (`github.com/tinywasm/crypto/rand`)
+## 3. Aleatoriedad / Randomness (`webtyp.com/crypto/rand`)
 
 El paquete `rand` provee la fuente de entropía segura para el ecosistema.
 

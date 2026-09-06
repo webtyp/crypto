@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/tinywasm/crypto/aesgcm"
-	"github.com/tinywasm/crypto/rand"
+	"webtyp.com/crypto/aesgcm"
+	"webtyp.com/crypto/rand"
 )
 
 func TestEncryptDecrypt(t *testing.T) {

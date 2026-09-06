@@ -4,8 +4,8 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 
-	. "github.com/tinywasm/fmt"
-	"github.com/tinywasm/crypto/rand"
+	. "webtyp.com/fmt"
+	"webtyp.com/crypto/rand"
 )
 
 const (

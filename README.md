@@ -1,4 +1,4 @@
-# tinywasm/crypto
+# webtyp/crypto
 <img src="docs/img/badges.svg">
 
 A lightweight Go library for cryptographic operations, designed for WebAssembly and small devices using TinyGo.
@@ -8,23 +8,23 @@ A lightweight Go library for cryptographic operations, designed for WebAssembly 
 - **Simple API:** Easy-to-use API for symmetric and asymmetric encryption, digital signatures, HMAC, constant-time operations, blowfish, bcrypt, and secure randomness/secrets generation.
 - **TinyGo Optimized:** Subpackages allow fine-grained imports without pulling unnecessary cipher tables or stdlib packages into applications.
 - **WebAssembly Ready:** Can be used in browser environments.
-- **Zero Dependencies on Go Standard Library for Core Codecs:** Uses `github.com/tinywasm/fmt` and `github.com/tinywasm/base64`.
+- **Zero Dependencies on Go Standard Library for Core Codecs:** Uses `webtyp.com/fmt` and `webtyp.com/base64`.
 
 ## Basic Usage
 
 Import the leaf subpackage for the capability you need — the root package
 only provides `Random` (entropy). This is a breaking change: `Encrypt`,
-`Sign`, `HMACSHA256`, etc. no longer exist at `github.com/tinywasm/crypto`.
+`Sign`, `HMACSHA256`, etc. no longer exist at `webtyp.com/crypto`.
 
 ```go
 package main
 
 import (
-	"github.com/tinywasm/fmt"
-	"github.com/tinywasm/crypto/aesgcm"
-	"github.com/tinywasm/crypto/asym"
-	"github.com/tinywasm/crypto/bcrypt"
-	"github.com/tinywasm/crypto/rand"
+	"webtyp.com/fmt"
+	"webtyp.com/crypto/aesgcm"
+	"webtyp.com/crypto/asym"
+	"webtyp.com/crypto/bcrypt"
+	"webtyp.com/crypto/rand"
 )
 
 func main() {
@@ -88,10 +88,10 @@ LLVM 20.1.1), measured on 2026-08-22. Reproduce with the recipe in
 
 | Minimal program | Binary |
 |---|---|
-| `bcrypt.GenerateFromPassword` (`tinywasm/crypto/bcrypt`) | **65,748 bytes** |
+| `bcrypt.GenerateFromPassword` (`webtyp/crypto/bcrypt`) | **65,748 bytes** |
 | `bcrypt.GenerateFromPassword` (`golang.org/x/crypto/bcrypt`) | 186,307 bytes |
 
-`tinywasm/crypto/bcrypt` pulls none of `fmt`, `strconv`, `errors`, `io`,
+`webtyp/crypto/bcrypt` pulls none of `fmt`, `strconv`, `errors`, `io`,
 `bytes`, `unicode`, `reflect` or `encoding/base64` — **65% smaller**, and
 hash-compatible in both directions with `golang.org/x/crypto/bcrypt`.
 
@@ -101,12 +101,12 @@ hash-compatible in both directions with `golang.org/x/crypto/bcrypt`.
 |---|---|
 | empty `main` (toolchain floor) | 21,731 bytes |
 | `subtle` / `blowfish` / `bcrypt` / `rand` leaf subpackages | 65,748 bytes (bcrypt, the largest) |
-| `hmac.HMACSHA256` (`github.com/tinywasm/crypto/hmac`) | 155,260 bytes |
+| `hmac.HMACSHA256` (`webtyp.com/crypto/hmac`) | 155,260 bytes |
 | `crypto/hmac` + `crypto/sha256` called directly (stdlib) | 155,246 bytes |
-| `aesgcm.Encrypt` (`github.com/tinywasm/crypto/aesgcm`) | 164,988 bytes |
-| `asym` (`github.com/tinywasm/crypto/asym` — GenerateKeyPair/Sign/Verify) | 1,011,877 bytes |
+| `aesgcm.Encrypt` (`webtyp.com/crypto/aesgcm`) | 164,988 bytes |
+| `asym` (`webtyp.com/crypto/asym` — GenerateKeyPair/Sign/Verify) | 1,011,877 bytes |
 
-> **Breaking change:** the root package `github.com/tinywasm/crypto` no longer
+> **Breaking change:** the root package `webtyp.com/crypto` no longer
 > re-exports `HMACSHA256`, `Encrypt`, `Sign`, etc. Importing it for HMAC
 > previously cost ~264 KB because it linked `crypto/x509` (`net`,
 > `encoding/pem`, `encoding/asn1`, `math/big`, `fmt`, `reflect`) — ~109 KB no

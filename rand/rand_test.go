@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/tinywasm/crypto/rand"
+	"webtyp.com/crypto/rand"
 )
 
 func TestRead(t *testing.T) {

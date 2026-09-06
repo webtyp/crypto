@@ -19,7 +19,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/tinywasm/crypto/asym"
+	"webtyp.com/crypto/asym"
 )
 
 func main() {
@@ -52,7 +52,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/tinywasm/crypto/asym"
+	"webtyp.com/crypto/asym"
 )
 
 func main() {

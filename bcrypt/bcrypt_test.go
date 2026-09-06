@@ -7,7 +7,7 @@ import (
 
 	xbcrypt "golang.org/x/crypto/bcrypt"
 
-	"github.com/tinywasm/crypto/bcrypt"
+	"webtyp.com/crypto/bcrypt"
 )
 
 func TestBcryptingIsEasy(t *testing.T) {

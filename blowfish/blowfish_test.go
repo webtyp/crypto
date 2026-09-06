@@ -3,7 +3,7 @@ package blowfish_test
 import (
 	"testing"
 
-	"github.com/tinywasm/crypto/blowfish"
+	"webtyp.com/crypto/blowfish"
 )
 
 type CryptTest struct {

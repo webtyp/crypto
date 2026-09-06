@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/tinywasm/base64"
-	"github.com/tinywasm/crypto/rand"
+	"webtyp.com/base64"
+	"webtyp.com/crypto/rand"
 )
 
 func TestSecretIsURLSafe(t *testing.T) {

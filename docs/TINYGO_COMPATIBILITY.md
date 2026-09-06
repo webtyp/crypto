@@ -3,7 +3,7 @@
 > Este documento está en español por petición explícita. El resto de la
 > documentación del repo sigue en inglés.
 
-`tinywasm/crypto` promete "TinyGo Optimized / WebAssembly Ready". Este
+`webtyp/crypto` promete "TinyGo Optimized / WebAssembly Ready". Este
 documento **verifica esa promesa con evidencia**, no con suposiciones, y deja
 registrada la decisión sobre qué paquetes del stdlib se usan y cuáles se
 implementan en casa.
@@ -67,8 +67,8 @@ regla anti-footgun del plan.
 | `crypto/sha256` | `tinycrypto.go`, `hmac.go` | ✅ compila y pasa | usar stdlib |
 | `crypto/rand` | `rand/rand_native.go` (`!wasm`) | n/a — no entra en el binario wasm | usar stdlib, aislado en subpaquete `crypto/rand` para que `bcrypt`/`blowfish` no importen la raíz |
 | `crypto/hmac` | `hmac.go` | ✅ compila y pasa | usar stdlib |
-| `crypto/subtle` (raíz de este repo, no confundir con el stdlib `crypto/subtle`) | `subtle/subtle.go` | ✅ compila y pasa | implementación propia sin ningún import — ni siquiera `tinywasm/fmt` |
-| `encoding/base64` | base64url para JWT | ✅ compila | **sustituido** por `tinywasm/base64` (cero deps, −31 KB) — ver abajo |
+| `crypto/subtle` (raíz de este repo, no confundir con el stdlib `crypto/subtle`) | `subtle/subtle.go` | ✅ compila y pasa | implementación propia sin ningún import — ni siquiera `webtyp/fmt` |
+| `encoding/base64` | base64url para JWT | ✅ compila | **sustituido** por `webtyp/base64` (cero deps, −31 KB) — ver abajo |
 | `golang.org/x/crypto/blowfish` (no es stdlib) | `blowfish/cipher.go` | ✅ compila y pasa | **portado** a `crypto/blowfish` — ver sección siguiente |
 | `golang.org/x/crypto/bcrypt` (no es stdlib) | `bcrypt/bcrypt.go` | ✅ compila y pasa | **portado** a `crypto/bcrypt` — ver sección siguiente |
 
@@ -77,11 +77,11 @@ ninguna primitiva criptográfica. Todo el `crypto/*` que usa (y usará) esta
 librería es 100 % compatible con TinyGo. Reimplementar AES o SHA en Go sería más
 lento y menos seguro, sin ganancia alguna.
 
-## La única excepción: `encoding/base64` → `tinywasm/base64`
+## La única excepción: `encoding/base64` → `webtyp/base64`
 
 Es compatible con TinyGo, así que **no se descarta por compatibilidad sino por
 tamaño**. Vive ahora en su propio paquete de cero dependencias,
-[`github.com/tinywasm/base64`](https://github.com/tinywasm/base64)
+[`webtyp.com/base64`](https://github.com/webtyp/base64)
 (`URLEncode` / `URLDecode`), reutilizable por cualquier consumidor del ecosistema.
 
 Programa mínimo que codifica y decodifica, compilado con TinyGo a `wasm`:
@@ -89,12 +89,12 @@ Programa mínimo que codifica y decodifica, compilado con TinyGo a `wasm`:
 | Implementación | Binario |
 |---|---|
 | `encoding/base64` | 154 115 bytes |
-| `tinywasm/base64` | 122 967 bytes |
+| `webtyp/base64` | 122 967 bytes |
 | **ahorro** | **31 148 bytes (20 %)** |
 
 ### La trampa: la dependencia puede costar más que el ahorro
 
-La primera versión de `tinywasm/base64` importaba `tinywasm/fmt` solo para
+La primera versión de `webtyp/base64` importaba `webtyp/fmt` solo para
 declarar su valor de error. Resultado medido: **228 234 bytes, o sea 74 KB MÁS
 grande que el stdlib** — la dependencia costaba cuatro veces más que todo lo que
 el códec ahorraba. Quitando ese import (el error se declara con un tipo propio,
@@ -106,7 +106,7 @@ sin importar nada) el paquete pasó a ahorrar 31 KB de verdad.
    `crypto/*` entra; `encoding/*` no.
 2. Un paquete de utilidad para el edge solo compensa si es de **cero
    dependencias**. Sustituir stdlib por una librería propia que a su vez arrastra
-   `tinywasm/fmt` puede salir *más caro* que el stdlib. **Medir siempre, nunca
+   `webtyp/fmt` puede salir *más caro* que el stdlib. **Medir siempre, nunca
    asumir.**
 
 ## `bcrypt`/`blowfish`: por qué se portaron en vez de usar `golang.org/x/crypto`
@@ -157,11 +157,11 @@ stat -c '%s %n' base.wasm con.wasm
 ```
 
 Si TinyGo no está instalado, `wasmbrowsertest -tinygo` falla con instrucciones:
-`go run github.com/tinywasm/tinygo/cmd/tinygoinstall@latest`.
+`go run webtyp.com/tinygo/cmd/tinygoinstall@latest`.
 
 ## Al añadir una dependencia nueva
 
 1. Compilar con `gotest -tinygo`. Si TinyGo la rechaza, **no** se trabaja alrededor
-   en el consumidor: o se sustituye, o se implementa en el ecosistema `tinywasm`.
+   en el consumidor: o se sustituye, o se implementa en el ecosistema `webtyp`.
 2. Si compila, medir su coste en bytes con el método de arriba antes de darla por
    buena.

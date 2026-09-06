@@ -1,6 +1,6 @@
 package rand
 
-import . "github.com/tinywasm/fmt"
+import . "webtyp.com/fmt"
 
 // maxChunk is the maximum byte count crypto.getRandomValues accepts per call
 // (WebCrypto throws QuotaExceededError above this limit).

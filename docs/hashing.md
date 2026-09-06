@@ -26,13 +26,13 @@ func HMACEqual(mac1, mac2 []byte) bool
 
 ## JWT Signing Example
 
-This is the primary use case for `HMACSHA256` in the TinyWASM ecosystem. Note
-that Base64 encoding is handled by the `github.com/tinywasm/base64` package.
+This is the primary use case for `HMACSHA256` in the WebTyp ecosystem. Note
+that Base64 encoding is handled by the `webtyp.com/base64` package.
 
 ```go
 import (
-	"github.com/tinywasm/base64"
-	"github.com/tinywasm/crypto/hmac"
+	"webtyp.com/base64"
+	"webtyp.com/crypto/hmac"
 )
 
 func SignJWT(header, payload string, key []byte) string {
@@ -78,7 +78,7 @@ interoperable in both directions: a hash produced by `golang.org/x/crypto/bcrypt
 verifies correctly here, and vice versa.
 
 ```go
-import "github.com/tinywasm/crypto/bcrypt"
+import "webtyp.com/crypto/bcrypt"
 
 hashed, err := bcrypt.GenerateFromPassword([]byte("mysecret"), bcrypt.DefaultCost)
 if err != nil {

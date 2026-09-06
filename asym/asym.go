@@ -7,9 +7,9 @@ import (
 	"crypto/sha256"
 	"crypto/x509"
 
-	. "github.com/tinywasm/fmt"
-	"github.com/tinywasm/crypto/aesgcm"
-	"github.com/tinywasm/crypto/rand"
+	. "webtyp.com/fmt"
+	"webtyp.com/crypto/aesgcm"
+	"webtyp.com/crypto/rand"
 )
 
 const (

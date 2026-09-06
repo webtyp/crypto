@@ -1,11 +1,11 @@
 package bcrypt
 
 import (
-	"github.com/tinywasm/base64"
-	. "github.com/tinywasm/fmt"
-	"github.com/tinywasm/crypto/blowfish"
-	"github.com/tinywasm/crypto/rand"
-	"github.com/tinywasm/crypto/subtle"
+	"webtyp.com/base64"
+	. "webtyp.com/fmt"
+	"webtyp.com/crypto/blowfish"
+	"webtyp.com/crypto/rand"
+	"webtyp.com/crypto/subtle"
 )
 
 const (
