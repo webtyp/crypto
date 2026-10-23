@@ -3,8 +3,9 @@
 // signs with RSA; it only checks tokens a third party (e.g. Cloudflare
 // Access) signed.
 //
-// It is a leaf package on purpose: crypto/rsa and math/big would otherwise
-// enter the WASM binary of every consumer of crypto/asym.
+// On native targets (!wasm), it delegates to crypto/rsa and crypto/sha256.
+// On WASM targets (wasm), it delegates to the host Web Crypto API (SubtleCrypto)
+// via syscall/js, keeping math/big and crypto/rsa out of the WASM binary.
 //
 // Example:
 //
@@ -14,11 +15,6 @@
 package rsasig
 
 import (
-	"crypto"
-	"crypto/rsa"
-	"crypto/sha256"
-	"math/big"
-
 	"webtyp.com/fmt"
 )
 
@@ -58,33 +54,41 @@ type PublicKey struct {
 //
 //	ok, err := rsasig.VerifySHA256(key, []byte("header.payload"), sig)
 func VerifySHA256(pub PublicKey, message, signature []byte) (bool, error) {
-	key, err := toStdlib(pub)
-	if err != nil {
+	if err := validateKey(pub); err != nil {
 		return false, err
 	}
-	digest := sha256.Sum256(message)
-	if rsa.VerifyPKCS1v15(key, crypto.SHA256, digest[:], signature) != nil {
-		return false, nil
-	}
-	return true, nil
+	return verifySignature(pub, message, signature)
 }
 
-// toStdlib validates pub and converts it to the stdlib type. It is the only
-// place the key is checked.
-func toStdlib(pub PublicKey) (*rsa.PublicKey, error) {
-	n := new(big.Int).SetBytes(pub.N)
-	if n.BitLen() < MinModulusBits {
-		return nil, fmt.Err(ErrMsgInvalidPublicKey)
+func validateKey(pub PublicKey) error {
+	if bitLen(pub.N) < MinModulusBits {
+		return fmt.Err(ErrMsgInvalidPublicKey)
 	}
 	if len(pub.E) == 0 || len(pub.E) > maxExponentBytes {
-		return nil, fmt.Err(ErrMsgInvalidPublicKey)
+		return fmt.Err(ErrMsgInvalidPublicKey)
 	}
 	e := 0
 	for _, b := range pub.E {
 		e = e<<8 | int(b)
 	}
 	if e < minExponent || e%2 == 0 {
-		return nil, fmt.Err(ErrMsgInvalidPublicKey)
+		return fmt.Err(ErrMsgInvalidPublicKey)
 	}
-	return &rsa.PublicKey{N: n, E: e}, nil
+	return nil
+}
+
+func bitLen(b []byte) int {
+	for len(b) > 0 && b[0] == 0 {
+		b = b[1:]
+	}
+	if len(b) == 0 {
+		return 0
+	}
+	bits := len(b) * 8
+	top := b[0]
+	for top < 0x80 {
+		bits--
+		top <<= 1
+	}
+	return bits
 }
