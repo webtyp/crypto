@@ -71,6 +71,7 @@ regla anti-footgun del plan.
 | `encoding/base64` | base64url para JWT | ✅ compila | **sustituido** por `webtyp/base64` (cero deps, −31 KB) — ver abajo |
 | `golang.org/x/crypto/blowfish` (no es stdlib) | `blowfish/cipher.go` | ✅ compila y pasa | **portado** a `crypto/blowfish` — ver sección siguiente |
 | `golang.org/x/crypto/bcrypt` (no es stdlib) | `bcrypt/bcrypt.go` | ✅ compila y pasa | **portado** a `crypto/bcrypt` — ver sección siguiente |
+| `crypto/rsa`, `math/big` | `rsasig/rsasig.go` | not verified with TinyGo | leaf package: only consumers that verify RS256 import it |
 
 **Conclusión sobre la pregunta original:** no hace falta copiar ni reimplementar
 ninguna primitiva criptográfica. Todo el `crypto/*` que usa (y usará) esta

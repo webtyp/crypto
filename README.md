@@ -5,7 +5,7 @@ A lightweight Go library for cryptographic operations, designed for WebAssembly 
 
 ## Features
 
-- **Simple API:** Easy-to-use API for symmetric and asymmetric encryption, digital signatures, HMAC, constant-time operations, blowfish, bcrypt, and secure randomness/secrets generation.
+- **Simple API:** Easy-to-use API for symmetric and asymmetric encryption, digital signatures, RSA signature verification (RS256), HMAC, constant-time operations, blowfish, bcrypt, and secure randomness/secrets generation.
 - **TinyGo Optimized:** Subpackages allow fine-grained imports without pulling unnecessary cipher tables or stdlib packages into applications.
 - **WebAssembly Ready:** Can be used in browser environments.
 - **Zero Dependencies on Go Standard Library for Core Codecs:** Uses `webtyp.com/fmt` and `webtyp.com/base64`.
