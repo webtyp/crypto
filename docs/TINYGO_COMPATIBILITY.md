@@ -118,7 +118,9 @@ arrastra `fmt`, `strconv`, `errors`, `io`, `unicode`, `reflect` y
 `encoding/base64` — exactamente lo que este repo existe para evitar. Medido en
 `veltylabs/misitio` (Worker de Cloudflare): esa cadena cuesta 109 664 bytes,
 15 % del binario. Por eso se portaron a `crypto/bcrypt` y `crypto/blowfish`
-como subpaquetes hoja, sin ninguna de esas dependencias.
+como subpaquetes hoja, sin ninguna de esas dependencias. Además, las pruebas
+usan vectores estáticos conocidos, eliminando `golang.org/x/crypto` del `go.mod`
+(cero dependencias externas en todo el repositorio).
 
 ### La trampa se repitió: medir de verdad, no solo `go list -deps`
 
