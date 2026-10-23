@@ -2,8 +2,10 @@
 PLAN: "feat(rsasig): verify RSASSA-PKCS1-v1_5 SHA-256 signatures (JWT RS256) from raw JWK modulus and exponent"
 EXECUTOR: jules
 REVIEWER: none
-STATUS: running
+STATUS: review
 SESSION: 2756452746785139736
+PR: https://github.com/webtyp/crypto/pull/7
+REVIEWED_COMMIT: 4beaba6ae366d137489b60616a157082f8ee991f
 ---
 
 > Read AGENTS.md at the repo root before any change.
