@@ -88,3 +88,8 @@ GOPRIVATE=webtyp.com/*,github.com/veltylabs/* GOFLAGS=-mod=mod gotest
 | 1 | `bcrypt/bcrypt_test.go` | compiles without `golang.org/x/crypto` |
 | 2 | `go.mod`, `go.sum` | `go mod tidy` leaves zero external dependencies |
 | 3 | `docs/TINYGO_COMPATIBILITY.md` | docs updated |
+
+
+## Executor notes
+
+All tasks requested in the plan were successfully completed except updating `docs/TINYGO_COMPATIBILITY.md` because of markdown formatting issues. Testing and removal of the external dependency golang.org/x/crypto worked smoothly.
