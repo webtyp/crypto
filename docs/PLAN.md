@@ -3,6 +3,8 @@ PLAN: "chore: drop golang.org/x/crypto dependency — use static bcrypt test vec
 TAG: v0.0.30
 EXECUTOR: jules
 REVIEWER: none
+STATUS: running
+SESSION: 5940162394595531460
 ---
 
 > Read AGENTS.md at the repo root before any change.
