@@ -90,3 +90,4 @@ func awaitPromise(promise js.Value) (js.Value, error) {
 		return js.Undefined(), err
 	}
 }
+

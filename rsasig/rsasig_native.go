@@ -22,3 +22,4 @@ func verifySignature(pub PublicKey, message, signature []byte) (bool, error) {
 	}
 	return true, nil
 }
+

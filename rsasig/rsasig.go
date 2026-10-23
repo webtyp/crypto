@@ -92,3 +92,20 @@ func bitLen(b []byte) int {
 	}
 	return bits
 }
+
+func bitLen(b []byte) int {
+	for len(b) > 0 && b[0] == 0 {
+		b = b[1:]
+	}
+	if len(b) == 0 {
+		return 0
+	}
+	bits := len(b) * 8
+	top := b[0]
+	for top < 0x80 {
+		bits--
+		top <<= 1
+	}
+	return bits
+}
+
