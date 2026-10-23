@@ -2,6 +2,8 @@
 PLAN: "feat(rsasig): verify RSASSA-PKCS1-v1_5 SHA-256 signatures (JWT RS256) from raw JWK modulus and exponent"
 EXECUTOR: jules
 REVIEWER: none
+STATUS: running
+SESSION: 2756452746785139736
 ---
 
 > Read AGENTS.md at the repo root before any change.
