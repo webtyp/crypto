@@ -3,8 +3,10 @@ PLAN: "chore: drop golang.org/x/crypto dependency — use static bcrypt test vec
 TAG: v0.0.30
 EXECUTOR: jules
 REVIEWER: none
-STATUS: running
+STATUS: review
 SESSION: 5940162394595531460
+PR: https://github.com/webtyp/crypto/pull/8
+REVIEWED_COMMIT: 6b7a5526b1a3119dab4a61468ca7f1a4e71014e2
 ---
 
 > Read AGENTS.md at the repo root before any change.
