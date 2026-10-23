@@ -36,6 +36,27 @@ func main() {
 }
 ```
 
+## RSA verification (RS256) — rsasig
+
+`rsasig` provides verification only for RSA signatures using RSASSA-PKCS1-v1_5 with SHA-256. This is commonly used for JWTs signed by third parties.
+
+It is isomorphic and TinyGo-optimized: on native platforms it uses Go stdlib, while on WebAssembly targets (browsers, Cloudflare Workers) it delegates to the host Web Crypto API (`crypto.subtle`) via `syscall/js`, avoiding `math/big` and `crypto/rsa` in the WASM binary.
+
+```go
+// Two channels, never mixed: error != nil means the KEY is unusable (the
+// caller's configuration); false with a nil error means the signature does
+// not match (forged, tampered, or signed by another key).
+func VerifySHA256(pub PublicKey, message, signature []byte) (bool, error)
+```
+
+Example:
+
+```go
+ok, err := rsasig.VerifySHA256(rsasig.PublicKey{N: n, E: e}, []byte(signingInput), sig)
+if err != nil { /* the key itself is unusable: a configuration problem */ }
+if !ok { /* forged or tampered */ }
+```
+
 ## `Verify(message, signature, publicKey []byte) (bool, error)`
 
 Verifies a digital signature of a message using a public key.

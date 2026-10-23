@@ -128,6 +128,9 @@ forbidden list (verify with `GOOS=js GOARCH=wasm go list -deps ./<pkg>/`):
   `DecryptAsymmetric` (`crypto/ecdsa`, `crypto/ecdh`, `crypto/x509` — the
   only leaf that carries `crypto/x509` by design; anyone serializing a key
   pair already accepts that dependency).
+- `crypto/rsasig` — `VerifySHA256` (RSASSA-PKCS1-v1_5 SHA-256 for JWT RS256;
+  native uses stdlib `crypto/rsa`, WASM delegates to Web Crypto API with 0 KB
+  `math/big` overhead).
 
 **Measure, don't assume:** the first attempt at `crypto/bcrypt` imported the
 root package for randomness and shipped a TinyGo binary 53% *larger* than
@@ -137,12 +140,14 @@ a minimal program, not just `go list -deps`.
 
 ## Environment-specific code
 
-Entropy is the only thing that differs per environment, and it is isolated by
-build tag inside `crypto/rand`:
+Environment differences are isolated by build tag:
 
 - `rand/rand_native.go` (`//go:build !wasm`) → `crypto/rand` (stdlib).
 - `rand/rand_wasm.go` (`//go:build wasm`) → `crypto.getRandomValues()` via
   `syscall/js`.
+- `rsasig/rsasig_native.go` (`//go:build !wasm`) → `crypto/rsa` (stdlib) for backend server.
+- `rsasig/rsasig_wasm.go` (`//go:build wasm`) → Web Crypto API (`crypto.subtle.verify`) via
+  `syscall/js` (avoids linking `math/big` and `crypto/rsa` in WASM binaries).
 
 The root package's `random.go` (no build tag) re-exports
 `webtyp.com/crypto/rand.Read` as `Random(b []byte) error` for
